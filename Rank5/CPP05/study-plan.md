@@ -22,7 +22,7 @@ Work through this plan **before** coding each exercise. CPP05 assumes solid unde
 
 ## Phase 1 — Exception fundamentals (before ex00)
 
-**Goal:** Understand C++ exception mechanics in C++98.
+**Goal:** Understand C++ exception mechanics in C++20.
 
 | Topic | Action |
 |-------|--------|

@@ -9,19 +9,19 @@
 - Provide structured learning paths before starting each project
 - Document required theory, patterns, and constraints from the subject
 - Highlight useful syntax, standard library features (where allowed), and tooling
-- Keep material aligned with 42 evaluation norms (C++98, OCF, forbidden functions, etc.)
+- Keep material aligned with The Hive evaluation norms (**C++20**, OCF, forbidden functions, etc.)
 
 ## Layout
 
 ```
 Rank5/
-  CPP05/          # Repetition and Exceptions (fully documented)
-  CPP06/          # C++ casts (placeholder)
-  CPP07/          # Templates (placeholder)
-  CPP08/          # Templated containers, iterators, algorithms (placeholder)
-  CPP09/          # STL (placeholder)
+  CPP05/          # Repetition and Exceptions
+  CPP06/          # C++ casts
+  CPP07/          # Templates
+  CPP08/          # Templated containers, iterators, algorithms
+  CPP09/          # STL
   Inception/      # Docker / system administration (placeholder)
-  Webserv/        # HTTP server (placeholder)
+  IRC/            # ft_irc — IRC server
   Exam-Rank-05/   # Rank 5 exam prep (placeholder)
 ```
 
@@ -30,14 +30,15 @@ Additional ranks (`Rank0`–`Rank4`, `Rank6`, etc.) may be added as the curricul
 ## Conventions for contributors and agents
 
 1. **Study material only** — Do not add graded exercise solutions or code that could be submitted as project work.
-2. **One directory per project** — Match official 42 project names (e.g. `CPP05`, not `cpp-module-05`).
+2. **One directory per project** — Match official 42 project names (e.g. `CPP05`, `IRC`).
 3. **Per-project structure** — Prefer:
    - `README.md` — overview and links
    - `study-plan.md` — ordered learning path
    - `theory-and-concepts.md` — concepts grouped by exercise
    - `syntax-libraries-tools.md` — quick reference for allowed APIs and build tooling
-4. **C++ modules** — Respect module rules: C++98, `-Wall -Wextra -Werror -std=c++98`, Orthodox Canonical Form where required, and **no STL containers/algorithms before CPP08** unless the subject explicitly allows them.
-5. **Source of truth** — When in doubt, defer to the official subject PDF from the 42 intranet and current evaluation sheets.
+4. **C++ standard** — The Hive allows **C++20**: compile with `-std=c++20 -Wall -Wextra -Werror`. Use modern features (`nullptr`, `override`, `noexcept`, smart pointers) where they improve clarity. **STL containers/algorithms remain forbidden in CPP05–CPP07** per module subjects; CPP08+ explicitly introduces STL.
+5. **IRC** — C++20, non-blocking I/O with `poll()` (or equivalent), no forking; reference client compatibility required.
+6. **Source of truth** — When in doubt, defer to the official subject PDF from the 42 intranet and current evaluation sheets.
 
 ## Audience
 

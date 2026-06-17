@@ -1,6 +1,6 @@
 # CPP05 — Syntax, libraries, and tools
 
-Quick reference for **allowed** C++98 features in Module 05. Do **not** use STL containers or `<algorithm>` until CPP08.
+Quick reference for **C++20** in Module 05. Do **not** use STL containers or `<algorithm>` until CPP08.
 
 ---
 
@@ -10,7 +10,7 @@ Quick reference for **allowed** C++98 features in Module 05. Do **not** use STL 
 
 ```makefile
 CXX      = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++20
 ```
 
 ### Typical Makefile targets
@@ -40,7 +40,7 @@ cd ex00 && make && ./bureaucrat   # binary name per your Makefile
 | `<fstream>` | `std::ofstream` — ShrubberyCreationForm file output |
 | `<cstdlib>` | `std::rand`, `std::srand` — RobotomyRequestForm |
 | `<ctime>` | `std::time` — seeding RNG |
-| `<cstddef>` | `NULL` (if returning null pointer for unknown forms) |
+| `<cstddef>` | `nullptr` for unknown-form returns |
 
 ### Forbidden until CPP08 (examples)
 
@@ -54,7 +54,7 @@ cd ex00 && make && ./bureaucrat   # binary name per your Makefile
 
 ---
 
-## Exception syntax (C++98)
+## Exception syntax (C++20)
 
 ### Throwing
 
@@ -80,14 +80,27 @@ class Bureaucrat {
 public:
     class GradeTooHighException : public std::exception {
     public:
-        virtual const char* what() const throw() {
+        const char* what() const noexcept override {
             return "Grade is too high";
         }
     };
 };
 ```
 
-Note: C++98 uses `throw()` on `what()` — later standards mark this deprecated; follow C++98 for 42.
+Use `noexcept` on `what()` and `override` on virtual overrides (C++20 at The Hive).
+
+### Optional: smart pointers in ex03
+
+```cpp
+#include <memory>
+
+std::unique_ptr<AForm> form(intern.makeForm("robotomy request", "Bender"));
+// no manual delete if you adopt unique_ptr at call site
+```
+
+Raw `new`/`delete` remains valid if you prefer matching older 42 examples.
+
+---
 
 ### Re-throwing
 
@@ -172,7 +185,7 @@ void Bureaucrat::executeForm(AForm const& form) {
 #include <fstream>
 
 std::string filename = _target + "_shrubbery";
-std::ofstream out(filename.c_str());  // C++98: const char* for filename
+std::ofstream out(filename);  // std::string accepted directly in C++20
 if (!out.is_open()) {
     // handle error (throw or message)
     return;
@@ -240,7 +253,7 @@ for (int i = 0; names[i] != NULL; ++i) {
 ### GDB quick commands
 
 ```bash
-g++ -g -std=c++98 -Wall -Wextra main.cpp Bureaucrat.cpp -o test
+g++ -g -std=c++20 -Wall -Wextra main.cpp Bureaucrat.cpp -o test
 gdb ./test
 # (gdb) break Bureaucrat::incrementGrade
 # (gdb) run
@@ -262,17 +275,26 @@ for d in ex00 ex01 ex02 ex03; do (cd "$d" && make re) || break; done
 
 ---
 
-## C++98 vs modern C++ (awareness only)
+## C++20 features worth using in CPP05
 
-42 CPP05 is **C++98**. Avoid (even if you know them):
+| Feature | Example use |
+|---------|-------------|
+| `nullptr` | Unknown form from `makeForm` |
+| `override` / `noexcept` | Exception `what()`, virtual `execute` |
+| `[[nodiscard]]` | Return values that must not be ignored |
+| Range-for | Iterate test arrays in `main` |
+| `std::unique_ptr<AForm>` | Safer ownership after `Intern::makeForm` |
 
-| Modern feature | C++98 alternative |
-|----------------|-------------------|
-| `override` keyword | Comment or careful naming |
-| `nullptr` | `NULL` or `0` for pointers |
-| `std::unique_ptr` | Raw `new` / `delete` |
-| Range-for | Index or iterator loops |
-| `noexcept` | `throw()` on `what()` |
+---
+
+## Re-throwing
+
+```cpp
+catch (const std::exception& e) {
+    // log locally
+    throw;  // re-throws current exception
+}
+```
 
 ---
 
@@ -287,7 +309,7 @@ for d in ex00 ex01 ex02 ex03; do (cd "$d" && make re) || break; done
 
 ## Pre-submission checklist
 
-- [ ] Compiles with `-Wall -Wextra -Werror -std=c++98`
+- [ ] Compiles with `-Wall -Wextra -Werror -std=c++20`
 - [ ] No forbidden STL headers
 - [ ] OCF on all classes except ex00 `Bureaucrat`
 - [ ] Virtual destructor on `AForm`

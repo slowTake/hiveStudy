@@ -26,10 +26,10 @@ All standard exceptions derive from `std::exception`, which provides:
 virtual const char* what() const throw();
 ```
 
-In C++98, custom exceptions typically:
+In C++20, custom exceptions typically:
 
 1. Inherit `public std::exception`
-2. Override `what()` to return a stable C-string (often a `const char*` literal or member string's `.c_str()`)
+2. Override `what()` with `noexcept override`
 3. Live as **nested classes** inside `Bureaucrat` or `AForm` for locality
 
 ### Nested classes
@@ -215,7 +215,7 @@ Concepts: `std::ofstream`, checking `is_open()`, writing multiline strings.
 | Execute grade | 45 |
 | Behavior | Drilling noise output; **50%** chance of successful robotomy |
 
-Concepts: `std::rand()`, `std::time()` + `std::srand()` for seeding (C++98 style), modulo for 50/50.
+Concepts: `std::rand()`, `std::time()` + `std::srand()` for seeding, modulo for 50/50 (or `<random>` if you prefer C++11+ style).
 
 #### PresidentialPardonForm
 
@@ -290,7 +290,7 @@ struct FormEntry {
 
 ### Error handling for unknown forms
 
-Subject allows printing an error and returning `NULL` **or** throwing—no custom exception class required. Pick one approach and use it consistently in `main`.
+Subject allows printing an error and returning `nullptr` **or** throwing—no custom exception class required. Pick one approach and use it consistently in `main`.
 
 ### Memory ownership
 

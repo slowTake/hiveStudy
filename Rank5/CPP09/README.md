@@ -1,7 +1,31 @@
 # CPP09 — STL
 
-Study material for this project is not yet available.
+Final C++ module: practical problems using **STL containers**, file I/O, parsing, and algorithm design (Ford-Johnson / merge-insert sort).
 
-**Topic (42 curriculum):** Practical STL usage—parsing, containers, stacks, and algorithmic exercises (e.g. RPN, merge-insert sort).
+## Exercises
 
-See [Rank 5 index](../README.md).
+| Exercise | Title | Focus |
+|----------|--------|--------|
+| ex00 | Bitcoin Exchange | `std::map`, CSV, date validation |
+| ex01 | Reverse Polish Notation | `std::stack`, expression evaluation |
+| ex02 | PmergeMe | Ford-Johnson sort, `vector` vs `deque`, timing |
+
+## Study files
+
+- [study-plan.md](./study-plan.md)
+- [theory-and-concepts.md](./theory-and-concepts.md)
+- [syntax-libraries-tools.md](./syntax-libraries-tools.md)
+
+## Global constraints
+
+- **Standard:** C++20 (`-std=c++20`)
+- **STL:** Full use encouraged (`map`, `stack`, `vector`, `deque`, …)
+- **ex02:** Implement Ford-Johnson (merge-insertion) — not `std::sort` as the core algorithm
+
+## Deliverables
+
+| Ex | Files |
+|----|-------|
+| 00 | `BitcoinExchange.{hpp,cpp}`, `main.cpp`, `data.csv` |
+| 01 | `RPN.{hpp,cpp}`, `main.cpp` |
+| 02 | `PmergeMe.{hpp,cpp}`, `main.cpp` |

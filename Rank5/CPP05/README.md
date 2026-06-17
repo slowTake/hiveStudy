@@ -19,11 +19,11 @@ You build a small hierarchy of classes (`Bureaucrat`, `Form`/`AForm`, concrete f
 
 - [study-plan.md](./study-plan.md) — recommended order and milestones
 - [theory-and-concepts.md](./theory-and-concepts.md) — concepts required per exercise
-- [syntax-libraries-tools.md](./syntax-libraries-tools.md) — C++98 syntax, allowed headers, Makefile, debugging
+- [syntax-libraries-tools.md](./syntax-libraries-tools.md) — C++20 syntax, allowed headers, Makefile, debugging
 
 ## Global constraints (entire module)
 
-- **Standard:** C++98 (`-std=c++98`)
+- **Standard:** C++20 (`-std=c++20`)
 - **Flags:** `-Wall -Wextra -Werror`
 - **STL:** No containers (`vector`, `map`, …) or `<algorithm>` until CPP08 — using them here costs **-42**
 - **OCF:** Orthodox Canonical Form required for all classes **except** `Bureaucrat` in ex00 (subject explicitly exempts it)
