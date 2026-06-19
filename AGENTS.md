@@ -20,7 +20,7 @@ Rank5/
   CPP07/          # Templates
   CPP08/          # Templated containers, iterators, algorithms
   CPP09/          # STL
-  Inception/      # Docker / system administration (placeholder)
+  Inception/      # Docker / system administration (fully documented)
   IRC/            # ft_irc — IRC server
   Exam-Rank-05/   # Rank 5 exam prep (placeholder)
 ```
