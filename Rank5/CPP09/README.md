@@ -12,6 +12,7 @@ Final C++ module: practical problems using **STL containers**, file I/O, parsing
 
 ## Study files
 
+- [exercises.md](./exercises.md) — **per-exercise breakdown**, deliverables, expected behaviour, mandatory vs bonus
 - [study-plan.md](./study-plan.md)
 - [theory-and-concepts.md](./theory-and-concepts.md)
 - [syntax-libraries-tools.md](./syntax-libraries-tools.md)

@@ -35,6 +35,7 @@ Additional ranks (`Rank0`–`Rank4`, `Rank6`, etc.) may be added as the curricul
    - `README.md` — overview and links
    - `study-plan.md` — ordered learning path
    - `theory-and-concepts.md` — concepts grouped by exercise
+   - `exercises.md` — per-exercise breakdown, mandatory vs bonus, evaluator expectations
    - `syntax-libraries-tools.md` — quick reference for allowed APIs and build tooling
 4. **C++ standard** — The Hive allows **C++20**: compile with `-std=c++20 -Wall -Wextra -Werror`. Use modern features (`nullptr`, `override`, `noexcept`, smart pointers) where they improve clarity. **STL containers/algorithms remain forbidden in CPP05–CPP07** per module subjects; CPP08+ explicitly introduces STL.
 5. **IRC** — C++20, non-blocking I/O with `poll()` (or equivalent), no forking; reference client compatibility required.
