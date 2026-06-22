@@ -85,10 +85,13 @@
 | Task | Detail |
 |------|--------|
 | Numeric replies | Match what reference client expects |
+| `PING`/`PONG` | Keep reference client connected |
 | Edge cases | Nick in use, not in channel, wrong password |
+| Partial data | Subject `nc -C` test — split commands with Ctrl+D |
 | Leaks | Valgrind with connect/disconnect storms |
 | Multi-client test | 3+ clients, same channel, cross-talk |
-| Subject checklist | Walk evaluation sheet line by line |
+| Subject checklist | Walk [exercises.md](./exercises.md) and evaluation sheet line by line |
+| Live mod prep | Be ready for a small on-the-spot code change at eval |
 
 ---
 
