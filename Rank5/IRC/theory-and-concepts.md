@@ -205,11 +205,33 @@ When client sends `PRIVMSG #channel :text`:
 | Issue | Symptom |
 |-------|---------|
 | Blocking `recv` | One slow client freezes server |
+| I/O without `poll()` | Subject: grade **0** |
 | No send buffer | Lost messages on `EAGAIN` |
 | Wrong line endings | Client hangs waiting for `\r\n` |
 | Missing numerics | Client disconnects at registration |
+| No `PONG` reply | Client times out and disconnects |
 | Mode parsing bugs | `+ok` vs `+o nick` confusion |
 | Nick not updated on channel relay | Wrong prefix in messages |
+| Partial TCP reads | `nc -C` split test fails |
+| Server crash on edge case | Subject: grade **0** |
+
+---
+
+## Subject vs RFC — scope traps
+
+The PDF names **capabilities**, not every IRC command. Mandatory capabilities map to `PASS`, `NICK`, `USER`, `JOIN`, `PRIVMSG`, `KICK`, `INVITE`, `TOPIC`, `MODE`.
+
+| Command | In subject PDF? | Practical need |
+|---------|------------------|----------------|
+| `PASS` / `NICK` / `USER` | Implied (auth, nick, user) | Required |
+| `JOIN` / `PRIVMSG` | Implied | Required |
+| `KICK` / `INVITE` / `TOPIC` / `MODE` | Explicit | Required |
+| `PING` / `PONG` | Not listed | Almost always needed for real clients |
+| `PART` / `QUIT` | Not listed | Expected in normal client use |
+| `NOTICE` | Not listed | Optional unless client sends it |
+| `NAMES` / `LIST` / `WHO` | Not listed | May be needed for channel user lists in GUI clients |
+
+Channel `PRIVMSG` must reach **every other** client in the channel (subject wording) — not necessarily echoed back to the sender depending on client.
 
 ---
 
@@ -223,6 +245,15 @@ Be ready to demonstrate live:
 4. Operator kicks user, sets `+i`, tests `INVITE`
 5. Wrong password rejected
 6. Explain `poll()` loop on whiteboard
+7. **Live modification** — evaluators may ask for a small on-the-spot code change (few minutes) to verify understanding
+
+### Subject partial-data test
+
+```bash
+nc -C 127.0.0.1 6667
+```
+
+Send a command in fragments with Ctrl+D (`com`, `man`, `d` + newline). Server must buffer until a full `\r\n`-terminated line exists.
 
 ---
 

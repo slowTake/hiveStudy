@@ -2,25 +2,40 @@
 
 ## Compiler flags
 
+Subject v9.1 requires **C++98** (`-std=c++98`). Confirm Hive eval flag on the evaluation sheet.
+
 ```makefile
 CXX      = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++20
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 LDFLAGS  =
 
 NAME = ircserv
 ```
 
-## Allowed system calls (typical subject)
+Makefile must define `$(NAME)`, `all`, `clean`, `fclean`, `re` and avoid unnecessary relinking.
+
+## Allowed system calls (subject v9.1 — authoritative)
 
 ```
-socket, bind, listen, accept, connect, send, recv, close
-setsockopt, getsockname, getprotobyname, gethostbyname
-getaddrinfo, freeaddrinfo, htons, htonl, ntohs, ntohl
-inet_addr, inet_ntoa, fcntl, poll (or select/epoll/kqueue)
-signal, sigaction, errno
+socket, close, setsockopt, getsockname, getprotobyname, gethostbyname,
+getaddrinfo, freeaddrinfo, bind, connect, listen, accept,
+htons, htonl, ntohs, ntohl, inet_addr, inet_ntoa, inet_ntop,
+send, recv, signal, sigaction,
+sigemptyset, sigfillset, sigaddset, sigdelset, sigismember,
+lseek, fstat, fcntl, poll (or equivalent)
 ```
 
-Check your subject PDF — list is authoritative.
+External libraries and Boost are **forbidden**.
+
+## MacOS fcntl rule
+
+On macOS, `fcntl()` is allowed **only** as:
+
+```cpp
+fcntl(fd, F_SETFL, O_NONBLOCK);
+```
+
+No other `fcntl` flags on macOS.
 
 ## Socket setup sketch
 
@@ -70,9 +85,9 @@ while (running) {
 }
 ```
 
-## C++20 containers for server state
+## C++ containers for server state
 
-STL is allowed in ft_irc (not a CPP module):
+STL is allowed in ft_irc (not a CPP module). Stay within C++98 if that is your eval standard:
 
 ```cpp
 #include <string>
@@ -139,7 +154,18 @@ void Client::sendNumeric(int code, const std::string& text) {
 | `strace -e poll,recv,send ./ircserv` | Syscall trace |
 | `lsof -i :6667` | Check bound port |
 
-## Test script idea
+## Subject partial-data test (mandatory rehearsal)
+
+From the subject — verify buffering with fragmented input:
+
+```bash
+nc -C 127.0.0.1 6667
+# Type: com^D man^D d^D  (Ctrl+D between fragments, then Enter)
+```
+
+The server must aggregate packets before parsing the command.
+
+## Automated smoke test
 
 ```bash
 #!/bin/bash
@@ -159,15 +185,20 @@ Makefile
 
 ## Checklist
 
+See [exercises.md](./exercises.md) for the full evaluator checklist. Quick list:
+
 - [ ] `./ircserv <port> <password>` — exactly two args
-- [ ] All sockets non-blocking
-- [ ] Single `poll()` (or approved equivalent) — no `fork`
-- [ ] Messages end with `\r\n`
+- [ ] Makefile: `NAME`, `all`, `clean`, `fclean`, `re`
+- [ ] All sockets non-blocking; MacOS: `fcntl` only `O_NONBLOCK`
+- [ ] Single `poll()` (or approved equivalent) for **all** I/O — no `fork`
+- [ ] Never `read`/`write` without going through the multiplexer (grade 0 trap)
+- [ ] Messages end with `\r\n`; partial reads buffered
+- [ ] `nc -C` fragmented command test passes
 - [ ] Reference client connects without errors
-- [ ] Channel broadcast works for 2+ clients
-- [ ] All five mode letters implemented
-- [ ] `-std=c++20` clean build
-- [ ] No leaks on connect/disconnect cycle
+- [ ] Channel `PRIVMSG` reaches other members; DMs work
+- [ ] All five mode letters implemented; operator commands work
+- [ ] `-Wall -Wextra -Werror` clean build with subject standard flag
+- [ ] No crash on edge cases; no leaks on connect/disconnect cycle
 
 ## References
 
