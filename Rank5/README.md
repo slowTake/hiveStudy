@@ -11,6 +11,6 @@ Rank 5 of the 42 common core typically includes the C++ modules **CPP05–CPP09*
 | [CPP09](./CPP09/) | STL applications | Study material available |
 | [Inception](./Inception/) | Docker, MariaDB, WordPress, NGINX | Study material available |
 | [IRC](./IRC/) | IRC server (ft_irc) | Study material available |
-| [Exam-Rank-05](./Exam-Rank-05/) | Rank 5 exam preparation | Placeholder |
+| [Exam-Rank-05](./Exam-Rank-05/) | Rank 5 exam prep (vect2, bigint, polyset) | Study material available |
 
 **Standard:** C++20 at The Hive (`-std=c++20`) for CPP modules; **ft_irc subject PDF requires C++98** — see [IRC/exercises.md](./IRC/exercises.md).
