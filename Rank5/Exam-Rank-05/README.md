@@ -2,6 +2,8 @@
 
 Timed practical exam covering C++ OOP topics from Rank 5. Level 00 exercises: **vect2**, **polyset**, **bigint**.
 
+**Standard:** C++20 (`-std=c++20`) at The Hive.
+
 ## Exercises
 
 | Exercise | Directory | Reference solution |

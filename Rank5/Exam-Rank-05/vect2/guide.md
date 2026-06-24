@@ -187,7 +187,7 @@ v1 = v1 - v1 + v1;     // (0,0) + (0,0) → (0,0) after sub
 ## Build & test
 
 ```bash
-c++ -Wall -Wextra -Werror -std=c++98 vect2.cpp main.cpp -o vect2_test
+c++ -Wall -Wextra -Werror -std=c++20 vect2.cpp main.cpp -o vect2_test
 ./vect2_test
 ```
 

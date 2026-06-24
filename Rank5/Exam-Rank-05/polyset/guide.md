@@ -234,7 +234,7 @@ Without `virtual public bag`, `searchable_array_bag` would contain **two** `bag`
 Compile all given + your files:
 
 ```bash
-c++ -Wall -Wextra -Werror -std=c++98 \
+c++ -Wall -Wextra -Werror -std=c++20 \
   array_bag.cpp tree_bag.cpp \
   searchable_array_bag.cpp searchable_tree_bag.cpp \
   set.cpp main.cpp -o polyset_test

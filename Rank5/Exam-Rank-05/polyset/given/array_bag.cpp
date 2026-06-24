@@ -1,7 +1,7 @@
 #include "array_bag.hpp"
 #include <iostream>
 
-array_bag::array_bag() : data(0), size(0) {}
+array_bag::array_bag() : data(nullptr), size(0) {}
 
 array_bag::array_bag(const array_bag &src) : size(src.size) {
 	data = new int[size];
@@ -51,6 +51,6 @@ void array_bag::print() const {
 
 void array_bag::clear() {
 	delete[] data;
-	data = 0;
+	data = nullptr;
 	size = 0;
 }

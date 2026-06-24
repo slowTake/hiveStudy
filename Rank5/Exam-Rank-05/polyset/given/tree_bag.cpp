@@ -1,7 +1,7 @@
 #include "tree_bag.hpp"
 #include <iostream>
 
-tree_bag::tree_bag() : tree(0) {}
+tree_bag::tree_bag() : tree(nullptr) {}
 
 tree_bag::tree_bag(const tree_bag &src) : tree(copy_node(src.tree)) {}
 
@@ -17,7 +17,7 @@ tree_bag &tree_bag::operator=(const tree_bag &src) {
 
 tree_bag::node *tree_bag::extract_tree() {
 	node *tmp = tree;
-	tree = 0;
+	tree = nullptr;
 	return tmp;
 }
 
@@ -29,8 +29,8 @@ void tree_bag::set_tree(node *new_tree) {
 void tree_bag::insert(int item) {
 	node *new_node = new node;
 	new_node->value = item;
-	new_node->l = 0;
-	new_node->r = 0;
+	new_node->l = nullptr;
+	new_node->r = nullptr;
 
 	if (!tree) {
 		tree = new_node;
@@ -70,7 +70,7 @@ void tree_bag::print() const {
 
 void tree_bag::clear() {
 	destroy_tree(tree);
-	tree = 0;
+	tree = nullptr;
 }
 
 void tree_bag::destroy_tree(node *cur) {
@@ -92,7 +92,7 @@ void tree_bag::print_node(node *cur) {
 
 tree_bag::node *tree_bag::copy_node(node *cur) {
 	if (!cur)
-		return 0;
+		return nullptr;
 	node *n = new node;
 	n->value = cur->value;
 	n->l = copy_node(cur->l);

@@ -161,7 +161,7 @@ Trace on paper before coding.
 ## Build & test
 
 ```bash
-c++ -Wall -Wextra -Werror -std=c++98 bigint.cpp main.cpp -o bigint_test
+c++ -Wall -Wextra -Werror -std=c++20 bigint.cpp main.cpp -o bigint_test
 ./bigint_test
 ```
 

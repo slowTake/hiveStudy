@@ -28,7 +28,7 @@ make test-bigint
 Or manually:
 
 ```bash
-c++ -Wall -Wextra -Werror -std=c++98 \
+c++ -Wall -Wextra -Werror -std=c++20 \
   bigint/reference/bigint.cpp bigint/main.cpp \
   -I bigint/reference -o /tmp/bigint-test && /tmp/bigint-test
 ```

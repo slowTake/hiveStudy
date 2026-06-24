@@ -5,8 +5,13 @@
 
 class bigint {
 public:
-	bigint(unsigned int nbr = 0);
+	bigint(unsigned int nbr = 0) : _big(nbr == 0 ? "0" : std::to_string(nbr)) {}
 	bigint(const bigint &other) : _big(other._big) {}
+	bigint &operator=(const bigint &other) {
+		if (this != &other)
+			_big = other._big;
+		return *this;
+	}
 
 	std::string getBig() const { return _big; }
 

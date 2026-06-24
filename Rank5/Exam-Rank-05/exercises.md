@@ -45,6 +45,7 @@ Searchable bags + set wrapper — see [polyset/guide.md](./polyset/guide.md).
 
 | Rule | Detail |
 |------|--------|
+| Standard | C++20 (`-std=c++20`) at The Hive |
 | Given main | Must compile and run without modification |
 | File names | Exact match to subject |
 | Orthodox canonical form | Default/copy ctor, copy assign, dtor where required |

@@ -19,17 +19,6 @@ unsigned int toUInt(const std::string &s) {
 
 } // namespace
 
-bigint::bigint(unsigned int nbr) : _big("0") {
-	if (nbr == 0)
-		return;
-	std::string s;
-	while (nbr) {
-		s.insert(s.begin(), static_cast<char>('0' + nbr % 10));
-		nbr /= 10;
-	}
-	_big = s;
-}
-
 bigint bigint::operator+(const bigint &other) const {
 	const std::string &a = _big;
 	const std::string &b = other._big;

@@ -1,5 +1,5 @@
 CXX      = g++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++20
 BUILD    = build
 
 .PHONY: all test-bigint test-vect2 test-polyset clean
