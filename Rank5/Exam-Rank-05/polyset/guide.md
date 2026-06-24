@@ -1,6 +1,10 @@
 # polyset — Implementation walkthrough
 
-Study guide for the Exam Rank 05 **polyset** exercise. Hardest level-00 question — inheritance, virtual base classes, and a thin wrapper.
+Study guide for the Exam Rank 05 **polyset** exercise.
+
+**Reference solution:** [reference/](./reference/) — six files (~60 lines total). Compare after your own attempt.
+
+Given exam files are in [given/](./given/). Run `make test-polyset` from the parent directory.
 
 ## Architecture overview
 

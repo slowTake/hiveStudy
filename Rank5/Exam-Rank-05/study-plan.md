@@ -16,10 +16,10 @@ Easiest of the three. Good warm-up for operator overloading.
 
 | Step | Task |
 |------|------|
-| 1 | Read [vect2.md](./vect2.md) |
+| 1 | Read [vect2/guide.md](./vect2/guide.md) |
 | 2 | Implement from header skeleton only |
-| 3 | Run given `main.cpp` — fix pre/post inc/dec return values |
-| 4 | Time yourself: aim under 45 minutes |
+| 3 | Compare with [vect2/reference/](./vect2/reference/) |
+| 4 | Run `make test-vect2` |
 
 **Checkpoint:** Given main compiles and prints expected `{x, y}` values.
 
@@ -31,11 +31,10 @@ Medium difficulty. String arithmetic and edge cases.
 
 | Step | Task |
 |------|------|
-| 1 | Read [bigint.md](./bigint.md) |
+| 1 | Read [bigint/guide.md](./bigint/guide.md) |
 | 2 | Implement `+`, `++`, comparison first |
-| 3 | Add `<<` / `<<=` digit shift |
-| 4 | Add `>>=` (shift amount = value of rhs bigint) |
-| 5 | Test: `0`, leading zeros, carry chains (`999 + 1`) |
+| 3 | Compare with [bigint/reference/](./bigint/reference/) |
+| 4 | Run `make test-bigint` |
 
 **Checkpoint:** Given main from subject passes all outputs.
 
@@ -47,12 +46,11 @@ Hardest level-00 exercise. Inheritance + virtual diamond + wrapping.
 
 | Step | Task |
 |------|------|
-| 1 | Read [polyset.md](./polyset.md) and given `bag.hpp` hierarchy |
-| 2 | Implement `searchable_array_bag::has` (linear scan) |
-| 3 | Implement `searchable_tree_bag::has` (BST walk) |
-| 4 | Implement `set` wrapper (deduplicating insert) |
-| 5 | Add OCF where subject requires it |
-| 6 | Run given `main.cpp` with args: `./a.out 1 2 3 2` |
+| 1 | Read [polyset/guide.md](./polyset/guide.md) and [polyset/given/](./polyset/given/) |
+| 2 | Implement `searchable_array_bag::has` |
+| 3 | Implement `set`, then `searchable_tree_bag::has` |
+| 4 | Compare with [polyset/reference/](./polyset/reference/) |
+| 5 | Run `make test-polyset` |
 
 **Checkpoint:** `has()` correct on both bag types; `set` ignores duplicate inserts.
 

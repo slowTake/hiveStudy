@@ -2,6 +2,10 @@
 
 Study guide for the Exam Rank 05 **vect2** exercise.
 
+**Reference solution:** [reference/vect2.hpp](./reference/vect2.hpp) and [reference/vect2.cpp](./reference/vect2.cpp) — compare after your own attempt.
+
+Run `make test-vect2` from the parent directory to verify the reference.
+
 ## Data model
 
 ```cpp

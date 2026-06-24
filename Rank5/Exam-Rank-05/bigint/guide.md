@@ -1,6 +1,10 @@
 # bigint — Implementation walkthrough
 
-Study guide for the Exam Rank 05 **bigint** exercise. Implement yourself; do not copy into the exam.
+Study guide for the Exam Rank 05 **bigint** exercise.
+
+**Reference solution:** [reference/bigint.hpp](./reference/bigint.hpp) and [reference/bigint.cpp](./reference/bigint.cpp) — compare after your own attempt.
+
+Implement yourself for the exam; use `make test-bigint` from the parent directory to verify the reference.
 
 ## Data model
 
