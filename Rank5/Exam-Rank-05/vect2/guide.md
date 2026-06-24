@@ -2,6 +2,10 @@
 
 Study guide for the Exam Rank 05 **vect2** exercise.
 
+**Reference solution:** [reference/vect2.hpp](./reference/vect2.hpp) and [reference/vect2.cpp](./reference/vect2.cpp) — compare after your own attempt.
+
+Run `make test-vect2` from the parent directory to verify the reference.
+
 ## Data model
 
 ```cpp
@@ -183,7 +187,7 @@ v1 = v1 - v1 + v1;     // (0,0) + (0,0) → (0,0) after sub
 ## Build & test
 
 ```bash
-c++ -Wall -Wextra -Werror -std=c++98 vect2.cpp main.cpp -o vect2_test
+c++ -Wall -Wextra -Werror -std=c++20 vect2.cpp main.cpp -o vect2_test
 ./vect2_test
 ```
 

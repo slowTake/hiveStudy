@@ -117,7 +117,17 @@ Increment adds 1 to **both** x and y — unusual but what the subject specifies.
 
 ---
 
-## Forbidden / avoid in exam
+## C++20 at The Hive
+
+Compile with `-std=c++20 -Wall -Wextra -Werror`. Useful features in these exercises:
+
+| Feature | Where |
+|---------|-------|
+| `std::to_string` | bigint constructor |
+| `nullptr` | polyset pointer checks |
+| `override` | polyset virtual methods (optional clarity) |
+
+---
 
 | Avoid | Reason |
 |-------|--------|

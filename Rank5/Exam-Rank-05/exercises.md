@@ -1,6 +1,6 @@
 # Exam Rank 05 — Exercise breakdown (level 00)
 
-Level 00 exercises from the new Exam Rank 05 pool. You receive **one** at random per attempt.
+Each exercise lives in its own directory with a `guide.md` and `reference/` solution.
 
 ---
 
@@ -8,11 +8,11 @@ Level 00 exercises from the new Exam Rank 05 pool. You receive **one** at random
 
 | | |
 |---|---|
+| **Directory** | [vect2/](./vect2/) |
 | **Files** | `vect2.hpp`, `vect2.cpp` |
-| **Topic** | Operator overloading, OCF |
-| **Guide** | [vect2.md](./vect2.md) |
+| **Reference** | [vect2/reference/](./vect2/reference/) |
 
-2D integer vector with `+`, `-`, `*`, `+=`, `-=`, `*=`, unary `-`, pre/post `++`/`--`, `[]`, `==`/`!=`, `<<`, and free `int * vect2`.
+2D integer vector — see [vect2/guide.md](./vect2/guide.md).
 
 ---
 
@@ -20,11 +20,11 @@ Level 00 exercises from the new Exam Rank 05 pool. You receive **one** at random
 
 | | |
 |---|---|
+| **Directory** | [bigint/](./bigint/) |
 | **Files** | `bigint.hpp`, `bigint.cpp` |
-| **Topic** | String arithmetic, operators |
-| **Guide** | [bigint.md](./bigint.md) |
+| **Reference** | [bigint/reference/](./bigint/reference/) |
 
-Arbitrary-precision **unsigned** integer stored as a decimal string. Supports `+`, `+=`, `++` (pre/post), `<<` / `<<=` (digit shift left), `>>=` (digit shift right), comparisons, and `<<` stream output (no leading zeros).
+Arbitrary-precision unsigned integer — see [bigint/guide.md](./bigint/guide.md).
 
 ---
 
@@ -32,13 +32,12 @@ Arbitrary-precision **unsigned** integer stored as a decimal string. Supports `+
 
 | | |
 |---|---|
-| **Files** | `searchable_array_bag.{hpp,cpp}`, `searchable_tree_bag.{hpp,cpp}`, `set.{hpp,cpp}` |
-| **Topic** | Multiple inheritance, virtual inheritance, polymorphism |
-| **Guide** | [polyset.md](./polyset.md) |
+| **Directory** | [polyset/](./polyset/) |
+| **Files** | `searchable_array_bag.*`, `searchable_tree_bag.*`, `set.*` |
+| **Reference** | [polyset/reference/](./polyset/reference/) |
+| **Given** | [polyset/given/](./polyset/given/) |
 
-Extend given `array_bag` / `tree_bag` hierarchy with `has()`, then wrap a `searchable_bag` in a `set` that rejects duplicate inserts.
-
-Given files (do not modify): `bag.hpp`, `searchable_bag.hpp`, `array_bag.*`, `tree_bag.*`, `main.cpp`.
+Searchable bags + set wrapper — see [polyset/guide.md](./polyset/guide.md).
 
 ---
 
@@ -46,35 +45,31 @@ Given files (do not modify): `bag.hpp`, `searchable_bag.hpp`, `array_bag.*`, `tr
 
 | Rule | Detail |
 |------|--------|
+| Standard | C++20 (`-std=c++20`) at The Hive |
 | Given main | Must compile and run without modification |
-| File names | Exact match to subject — typos fail |
-| Orthodox canonical form | Default ctor, copy ctor, copy assign, dtor where applicable |
-| `const` | Match subject signatures — `has() const`, `print() const`, etc. |
-| No leaks | Especially polyset (trees, arrays) |
-| Time | Level 00 typically ~3 hours total for one exercise |
+| File names | Exact match to subject |
+| Orthodox canonical form | Default/copy ctor, copy assign, dtor where required |
+| `const` | Match subject signatures |
+| Time | Level 00 ~3 hours for one exercise |
 
 ---
 
-## Evaluation traps (all exercises)
+## Evaluation traps
 
-| Trap | Applies to |
-|------|------------|
-| Post-increment returns **old** value | vect2, bigint |
-| `const` object calling non-`const` `operator[]` | vect2 |
+| Trap | Exercise |
+|------|----------|
+| Post-increment returns old value | vect2, bigint |
+| Missing `const operator[]` | vect2 |
 | Leading zeros in bigint output | bigint |
-| `>>=` shift count = **value** of rhs bigint, not bit count | bigint |
-| Diamond inheritance without `virtual` | polyset |
+| `>>=` uses rhs bigint **value** as digit count | bigint |
 | `set::insert` adds duplicates | polyset |
-| Forgot free `operator*(int, vect2)` | vect2 |
-| `operator=` missing self-assignment guard | all |
+| Missing `operator*(int, vect2)` | vect2 |
 
 ---
 
-## Practice repos (external)
+## Test reference solutions
 
-Community subjects and mains (verify against your exam version):
-
-- [flmarsou/42nice-exam05](https://github.com/flmarsou/42nice-exam05) — subjects + mains for bigint, vect2, polyset
-- [fbkeskin/42-exam-rank-05](https://github.com/fbkeskin/42-exam-rank-05) — passed solutions (use for testing only after your own attempt)
-
-Do not submit copied code — exam similarity checks and defense questions apply.
+```bash
+cd Rank5/Exam-Rank-05
+make all
+```

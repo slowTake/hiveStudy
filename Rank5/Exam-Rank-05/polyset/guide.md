@@ -1,6 +1,10 @@
 # polyset — Implementation walkthrough
 
-Study guide for the Exam Rank 05 **polyset** exercise. Hardest level-00 question — inheritance, virtual base classes, and a thin wrapper.
+Study guide for the Exam Rank 05 **polyset** exercise.
+
+**Reference solution:** [reference/](./reference/) — six files (~60 lines total). Compare after your own attempt.
+
+Given exam files are in [given/](./given/). Run `make test-polyset` from the parent directory.
 
 ## Architecture overview
 
@@ -230,7 +234,7 @@ Without `virtual public bag`, `searchable_array_bag` would contain **two** `bag`
 Compile all given + your files:
 
 ```bash
-c++ -Wall -Wextra -Werror -std=c++98 \
+c++ -Wall -Wextra -Werror -std=c++20 \
   array_bag.cpp tree_bag.cpp \
   searchable_array_bag.cpp searchable_tree_bag.cpp \
   set.cpp main.cpp -o polyset_test
