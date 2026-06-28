@@ -22,10 +22,13 @@ Rank5/
   CPP09/          # STL
   Inception/      # Docker / system administration (fully documented)
   IRC/            # ft_irc — IRC server
-  Exam-Rank-05/   # Rank 5 exam prep (placeholder)
+  Exam-Rank-05/   # Rank 5 exam prep (vect2, bigint, polyset)
+Rank6/
+  Transcendence/  # ft_transcendence — Pong SPA, Docker, modules
+  Exam-Rank-06/   # Rank 6 exam prep (mini_serv)
 ```
 
-Additional ranks (`Rank0`–`Rank4`, `Rank6`, etc.) may be added as the curriculum is covered.
+Additional ranks (`Rank0`–`Rank4`, etc.) may be added as the curriculum is covered.
 
 ## Conventions for contributors and agents
 
