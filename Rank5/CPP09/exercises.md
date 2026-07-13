@@ -11,6 +11,22 @@ CPP09 is the **final C++ module**. All exercises must pass for module completion
 
 ---
 
+## Module concepts (STL containers & algorithms)
+
+CPP09 combines **data structures**, **parsing**, and **algorithms** at practical scale. Container choice and exact error strings matter as much as correctness.
+
+| Container | Use in module | Why |
+|-----------|---------------|-----|
+| `std::map` | ex00 date → rate DB | Keys sorted; `lower_bound` finds closest earlier date |
+| `std::stack` | ex01 RPN | LIFO — most recent operands popped first for binary ops |
+| `std::vector` / `std::deque` | ex02 PmergeMe | Same Ford-Johnson on both; compare timing |
+
+**Algorithms:** ex00 uses `map::lower_bound` (not a full search from scratch). ex02 requires **Ford-Johnson merge-insertion sort** — not `std::sort` as the core algorithm. ex01 is stack-driven evaluation, not a library algorithm.
+
+**Evaluation topics (module-wide):** `lower_bound` behavior; RPN trace on whiteboard; why Ford-Johnson is O(n log n) with fewer comparisons; when `vector` beats `deque`.
+
+---
+
 ## ex00 — Bitcoin Exchange
 
 | | |
@@ -19,45 +35,52 @@ CPP09 is the **final C++ module**. All exercises must pass for module completion
 | **Turn-in** | `ex00/` |
 | **Files** | `Makefile`, `main.cpp`, `BitcoinExchange.{h,hpp,cpp}`, `data.csv` |
 
-### What you build
+### Concepts
 
-Program reading an input file of `date | value` lines and printing bitcoin value using historical exchange rates from `data.csv`.
+Program reads an input file of `date | value` lines and prints bitcoin value using historical rates from `data.csv`.
 
-### Input / output
-
-```text
-# input line
-2011-01-03 | 3
-
-# output
-2011-01-03 => 3 = 0.9
+```cpp
+std::map<std::string, float> _database;  // "YYYY-MM-DD" -> rate
 ```
 
-(Exact multiplier depends on rate in database.)
+`map` keeps keys sorted — enables `lower_bound` for the **closest earlier date** when the exact date is missing.
 
-### Expected behaviour
+**Input line format:** `2011-01-03 | 3` → output `2011-01-03 => 3 = 0.9` (multiplier depends on rate).
 
-| Validation | Error message |
-|------------|---------------|
+**Closest earlier date** (core lookup):
+
+```cpp
+auto it = _database.lower_bound(date);
+if (it == _database.begin() && (it == _database.end() || it->first != date))
+    // no earlier rate
+if (it != _database.end() && it->first == date)
+    return it->second;
+if (it != _database.begin()) { --it; return it->second; }
+```
+
+**Date validation:** zero-padded `YYYY-MM-DD`; months 1–12; days per month; leap year for February.
+
+### Requirements
+
+| Area | Detail |
+|------|--------|
+| Data store | Load `data.csv` into `std::map<std::string, float>` (date → rate) |
+| Lookup | `lower_bound` or equivalent for closest earlier date |
+| Arithmetic | Print `value * rate` |
 | Bad line format | `Error: bad input => <line>` |
-| Not a positive number | `Error: not a positive number.` |
-| Value &gt; 1000 | `Error: too large a number.` |
-| Invalid date | Per subject (often bad input) |
-| Date not in DB | Use **closest earlier** date’s rate |
+| Invalid date | `Error: bad input => ...` or date-specific per subject |
+| Negative value | `Error: not a positive number.` |
+| Value > 1000 | `Error: too large a number.` |
+| Date before DB | Handle per subject (often error) |
 | Missing file | `Error: could not open file.` |
 
-### Technical requirements
+### Pitfalls & evaluator checks
 
-- Load `data.csv` into **`std::map<std::string, float>`** (date → rate)
-- Date format `YYYY-MM-DD` with valid calendar dates (leap years)
-- Use `lower_bound` or equivalent for closest earlier date
-
-### Evaluator will check
-
-- Correct multiplication `value * rate`
-- Error strings exact
-- Leap year / invalid date handling
+- Error strings must match subject **exactly**
+- Leap years and invalid calendar dates (e.g. `2011-02-30`)
 - Large CSV loads without crash
+- `lower_bound` edge cases: exact match, date before first DB entry, gap between dates
+- Evaluator may ask you to explain `map::lower_bound` behavior on the whiteboard
 
 ---
 
@@ -69,44 +92,45 @@ Program reading an input file of `date | value` lines and printing bitcoin value
 | **Turn-in** | `ex01/` |
 | **Files** | `Makefile`, `main.cpp`, `RPN.{h,hpp,cpp}` |
 
-### What you build
+### Concepts
 
-RPN (**postfix**) calculator evaluating numeric expressions from command-line arguments.
+RPN (**postfix**): operands first, operator last. Example: `8 9 * 9 - 9 - 9 - 4 - 1 +` → `42`.
 
-### Usage
+**Algorithm:**
 
-```bash
-./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +"
-# 42
-
-./RPN "1 2 +"
-# 3
-
-./RPN "(1 + 1)"
-# Error
+```
+for each token:
+  if number → push
+  if operator → pop b, pop a, push a op b
+end
+result = stack.top()  (only if stack size == 1)
 ```
 
-### Expected behaviour
+Use **`std::stack`** — LIFO matches “most recent operands first” for binary operators.
 
-| Rule | Detail |
+```bash
+./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +"   # 42
+./RPN "1 2 +"                         # 3
+./RPN "(1 + 1)"                       # Error
+```
+
+### Requirements
+
+| Area | Detail |
 |------|--------|
+| Container | `std::stack` |
 | Numbers | Typically single-digit **0–9** only |
 | Operators | `+`, `-`, `*`, `/` |
-| Algorithm | Stack: push numbers; on operator pop two, compute, push result |
+| Division | Integer arithmetic; `/` truncates |
 | Division by zero | Error (exit or print `Error`) |
-| Invalid expression | Print `Error` |
-| Final stack | Exactly one value remaining |
+| Invalid expression | Print `Error` (too few operands, invalid tokens) |
+| Final state | Exactly one value on stack |
 
-### Technical requirements
+### Pitfalls & evaluator checks
 
-- Use **`std::stack`**
-- Integer arithmetic (division truncates for ints)
-
-### Evaluator will check
-
-- Subject example outputs
-- Division by zero
-- Malformed input (too few operands, invalid tokens)
+- Subject example outputs must match
+- Malformed input: extra operands, unknown tokens, parentheses
+- Evaluator may trace a small expression on the whiteboard step by step
 
 ---
 
@@ -118,17 +142,39 @@ RPN (**postfix**) calculator evaluating numeric expressions from command-line ar
 | **Turn-in** | `ex02/` |
 | **Files** | `Makefile`, `main.cpp`, `PmergeMe.{h,hpp,cpp}` |
 
-### What you build
+### Concepts
 
-Sort a sequence of **positive integers** using the **Ford-Johnson** (merge-insertion) algorithm, implemented for both **`std::vector`** and **`std::deque`**, with timing comparison.
+Sort **positive integers** from argv using **Ford-Johnson** (merge-insertion sort), implemented separately for `vector` and `deque`, with timing comparison.
 
-### Usage
+**Ford-Johnson outline:**
+
+1. Pair elements; sort pairs (larger elements form main chain)
+2. Recursively sort main chain
+3. Insert smaller elements using Jacobsthal sequence for optimal insert order
+4. Handle odd leftover element
+
+This is **not** a call to `std::sort` — you implement the algorithm.
+
+**Timing** (`chrono` is fine in C++20; subject may specify `clock()` — follow evaluation sheet):
+
+```cpp
+auto start = std::chrono::steady_clock::now();
+// sort
+auto end = std::chrono::steady_clock::now();
+auto us = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+```
+
+**vector vs deque:**
+
+| | vector | deque |
+|---|--------|-------|
+| Memory | Contiguous | Chunked blocks |
+| Insert middle | O(n) | O(n), different constants |
+| Cache | Often faster sequential | More pointer chasing |
 
 ```bash
 ./PmergeMe 3 5 9 7 4
 ```
-
-### Expected output
 
 ```text
 Before: 3 5 9 7 4
@@ -137,24 +183,25 @@ Time to process a range of 5 elements with std::vector : X us
 Time to process a range of 5 elements with std::deque  : Y us
 ```
 
-### Expected behaviour
+### Requirements
 
-| Rule | Detail |
+| Area | Detail |
 |------|--------|
 | Input | Positive integers only as argv |
-| Invalid input | Clear error handling |
-| Algorithm | **Ford-Johnson** — not `std::sort` as the core algorithm |
+| Algorithm | Ford-Johnson merge-insertion — not `std::sort` as core |
 | Containers | Both `vector` and `deque` sorted independently |
 | Timing | Print microseconds (or subject format) for each |
-| Large input | Handle ~3000 integers |
-| Display | If &gt;5 numbers, show first 5 before/after |
+| Scale | Handle ~3000 integers (`shuf -i 1-100000 -n 3000`) |
+| Display | If >5 numbers, show first 5 before/after |
+| Invalid input | Clear error handling |
 
-### Evaluator will check
+### Pitfalls & evaluator checks
 
-- Sorted output correct
-- Both container timings printed
-- `shuf -i 1-100000 -n 3000` scale test
-- Algorithm is actually merge-insertion (may ask to explain)
+- Using `std::sort` instead of Ford-Johnson fails evaluation
+- Non-positive numbers in input
+- Forgetting to print both container timings
+- Evaluator may ask why Ford-Johnson is O(n log n) with fewer comparisons
+- May ask when to pick `vector` over `deque`
 
 ---
 
@@ -164,3 +211,6 @@ Time to process a range of 5 elements with std::deque  : Y us
 - [ ] No forbidden functions per subject
 - [ ] Ford-Johnson implemented, not only `std::sort`
 - [ ] All error messages match subject exactly
+- [ ] ex00 `lower_bound` handles exact match and closest earlier date
+- [ ] ex01 stack ends with exactly one value
+- [ ] ex02 both `vector` and `deque` timings printed

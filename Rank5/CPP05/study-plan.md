@@ -38,7 +38,7 @@ Work through this plan **before** coding each exercise. CPP05 assumes solid unde
 
 ## Phase 2 — Exercise 00: Bureaucrat (1–2 days)
 
-**Read:** [theory-and-concepts.md § ex00](./theory-and-concepts.md#ex00--bureaucrat-and-grade-exceptions)
+**Read:** [exercises.md § ex00](./exercises.md#ex00--mommy-when-i-grow-up-i-want-to-be-a-bureaucrat)
 
 | Step | Task |
 |------|------|
@@ -55,7 +55,7 @@ Work through this plan **before** coding each exercise. CPP05 assumes solid unde
 
 ## Phase 3 — Exercise 01: Form and signing (1–2 days)
 
-**Read:** [theory-and-concepts.md § ex01](./theory-and-concepts.md#ex01--form-and-signing)
+**Read:** [exercises.md § ex01](./exercises.md#ex01--form-up-maggots)
 
 | Step | Task |
 |------|------|
@@ -71,7 +71,7 @@ Work through this plan **before** coding each exercise. CPP05 assumes solid unde
 
 ## Phase 4 — Exercise 02: AForm and concrete forms (2–3 days)
 
-**Read:** [theory-and-concepts.md § ex02](./theory-and-concepts.md#ex02--aform-polymorphic-execution)
+**Read:** [exercises.md § ex02](./exercises.md#ex02--no-you-need-form-28b-not-28c)
 
 | Step | Task |
 |------|------|
@@ -97,7 +97,7 @@ Work through this plan **before** coding each exercise. CPP05 assumes solid unde
 
 ## Phase 5 — Exercise 03: Intern factory (1 day)
 
-**Read:** [theory-and-concepts.md § ex03](./theory-and-concepts.md#ex03--intern-factory)
+**Read:** [exercises.md § ex03](./exercises.md#ex03--at-least-this-beats-coffee-making)
 
 | Step | Task |
 |------|------|

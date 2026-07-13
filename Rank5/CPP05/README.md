@@ -17,9 +17,8 @@ You build a small hierarchy of classes (`Bureaucrat`, `Form`/`AForm`, concrete f
 
 ## Study files in this directory
 
-- [exercises.md](./exercises.md) — **per-exercise breakdown**, deliverables, expected behaviour, mandatory vs bonus
+- [exercises.md](./exercises.md) — **per-exercise breakdown** with concepts, requirements, pitfalls, and evaluator checks; deliverables and mandatory vs bonus
 - [study-plan.md](./study-plan.md) — recommended order and milestones
-- [theory-and-concepts.md](./theory-and-concepts.md) — concepts required per exercise
 - [syntax-libraries-tools.md](./syntax-libraries-tools.md) — C++20 syntax, allowed headers, Makefile, debugging
 
 ## Global constraints (entire module)

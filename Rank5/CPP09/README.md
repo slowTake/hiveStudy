@@ -12,9 +12,8 @@ Final C++ module: practical problems using **STL containers**, file I/O, parsing
 
 ## Study files
 
-- [exercises.md](./exercises.md) — **per-exercise breakdown**, deliverables, expected behaviour, mandatory vs bonus
+- [exercises.md](./exercises.md) — **primary reference**: module validation, condensed STL concepts, per-exercise meta tables, concepts, requirements, pitfalls, and evaluator checks (including Bitcoin `lower_bound` and exact error strings)
 - [study-plan.md](./study-plan.md)
-- [theory-and-concepts.md](./theory-and-concepts.md)
 - [syntax-libraries-tools.md](./syntax-libraries-tools.md)
 
 ## Global constraints

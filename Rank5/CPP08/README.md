@@ -12,9 +12,8 @@ Module 08 opens the **STL**: containers, iterators, and `<algorithm>`. You learn
 
 ## Study files
 
-- [exercises.md](./exercises.md) — **per-exercise breakdown**, deliverables, expected behaviour, mandatory vs bonus
+- [exercises.md](./exercises.md) — **module validation**, condensed STL concepts (triad, iterators, algorithms), per-exercise meta tables, concepts, requirements, pitfalls, and evaluator checks, plus module checklist
 - [study-plan.md](./study-plan.md)
-- [theory-and-concepts.md](./theory-and-concepts.md)
 - [syntax-libraries-tools.md](./syntax-libraries-tools.md)
 
 ## Global constraints

@@ -12,9 +12,8 @@ Module 06 teaches the four C++ cast operators and **RTTI** (Runtime Type Informa
 
 ## Study files
 
-- [exercises.md](./exercises.md) — **per-exercise breakdown**, deliverables, expected behaviour, mandatory vs bonus
+- [exercises.md](./exercises.md) — **single reference for the module**: validation rules, four casts and RTTI, per-exercise concepts, requirements tables, pitfalls, and evaluator checks
 - [study-plan.md](./study-plan.md)
-- [theory-and-concepts.md](./theory-and-concepts.md)
 - [syntax-libraries-tools.md](./syntax-libraries-tools.md)
 
 ## Global constraints

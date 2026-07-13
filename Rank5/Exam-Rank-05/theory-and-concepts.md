@@ -140,6 +140,6 @@ Compile with `-std=c++20 -Wall -Wextra -Werror`. Useful features in these exerci
 
 ## Further reading
 
-- [CPP05 theory — operators](../CPP05/theory-and-concepts.md)
+- [CPP05 exercises — OCF & operators](../CPP05/exercises.md#module-concepts)
 - [RFC / Beej's](https://beej.us/guide/bgnet/) — not needed for these exercises
 - Community subjects: [42nice-exam05](https://github.com/flmarsou/42nice-exam05)
