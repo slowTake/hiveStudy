@@ -2,7 +2,7 @@
 
 ## Repository purpose
 
-**hiveStudy** is a curated study repository for passing **The Hive's 42 core curriculum**. It collects theory, concepts, study plans, syntax references, and exercise-by-exercise guidance for each project—not implementation solutions.
+**hiveStudy** is a curated study repository for passing **Hive Helsinki's 42 core curriculum**. It collects theory, concepts, study plans, syntax references, and exercise-by-exercise guidance for each project—not implementation solutions.
 
 ## Goals
 
@@ -56,4 +56,4 @@ Additional ranks (`Rank0`–`Rank3`, etc.) may be added as the curriculum is cov
 
 ## Audience
 
-Students at The Hive (42) working through the common core, and AI agents assisting with study planning or concept explanations in this repo.
+Students at Hive Helsinki (42) working through the common core, and AI agents assisting with study planning or concept explanations in this repo.
