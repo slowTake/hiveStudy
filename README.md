@@ -1,6 +1,6 @@
 ### hiveStudy
 ----
-Study repository for **The Hive's 42 core curriculum** — theory, study plans, and concept guides per project (not submitted solutions).
+Study repository for **Hive Helsinki's 42 core curriculum** — theory, study plans, and concept guides per project (not submitted solutions).
 
 - [AGENTS.md](./AGENTS.md) — repo purpose and conventions for contributors/agents
 - [Rank 4](./Rank4/) — CPP00–CPP04, NetPractice, Cub3D, Exam Rank 04
