@@ -13,4 +13,4 @@ Study repository for **The Hive's 42 core curriculum** — theory, study plans, 
 ---
 
 #### Disclaimer
-##### This repo is being filled by a automated bot so please verify and don't take written here as gospel <3
+##### I'm using this repo as a oppertunity to learn more about agents and how to automate some of my research/learning. The repo is being filled by a automated bot so please verify and don't take everything written here as gospel <3
