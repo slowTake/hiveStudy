@@ -4,7 +4,9 @@ Rank 6 is the final stretch of the 42 common core: the team web project **ft_tra
 
 | Project | Topic | Status |
 |---------|--------|--------|
-| [Transcendence](./Transcendence/) | Pong SPA, Docker, modular web stack | Study material available |
+| [Transcendence](./Transcendence/) | Modular web application (v19), Docker, 14-point modules | Study material available |
 | [Exam-Rank-06](./Exam-Rank-06/) | `mini_serv` — TCP chat server with `select()` | Study material available |
 
-**Note:** Transcendence is a **team** project with a modular subject — confirm module names, point values, and mandatory baseline rules on your campus intranet PDF before locking your module plan.
+**Subject PDF:** [`Transcendence/ft_transcendence.pdf`](./Transcendence/ft_transcendence.pdf) (v19.0) is included in this repo — confirm module names, point values, and mandatory baseline rules there before locking your module plan.
+
+Transcendence is a **team** project (4–5 students) with a modular subject: you choose the application idea and modules worth at least **14 points** (major = 2 pt, minor = 1 pt).
