@@ -11,4 +11,4 @@ Study repository for **Hive Helsinki's 42 core curriculum** — theory, study pl
 ----
 
 #### Disclaimer
-##### I'm using this repo as a oppertunity to learn more about agents and how to automate some of my research/learning. The repo is being filled by a automated bot so please verify and don't take everything written here as gospel <3
+##### I'm using this repo as a oppertunity to learn more about agents, multi-subagent workflow and how to automate some of my research/learning. The repo is being filled by a automated bot so please verify and don't take everything written here as gospel <3
