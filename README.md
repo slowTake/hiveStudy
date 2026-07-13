@@ -1,7 +1,5 @@
-# hiveStudy
-
----
-
+### hiveStudy
+----
 Study repository for **The Hive's 42 core curriculum** — theory, study plans, and concept guides per project (not submitted solutions).
 
 - [AGENTS.md](./AGENTS.md) — repo purpose and conventions for contributors/agents
@@ -10,7 +8,7 @@ Study repository for **The Hive's 42 core curriculum** — theory, study plans, 
 - [Rank 6](./Rank6/) — Transcendence, Exam Rank 06
 
 
----
+----
 
 #### Disclaimer
 ##### I'm using this repo as a oppertunity to learn more about agents and how to automate some of my research/learning. The repo is being filled by a automated bot so please verify and don't take everything written here as gospel <3
