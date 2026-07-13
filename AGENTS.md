@@ -34,7 +34,7 @@ Rank5/
   IRC/            # ft_irc — IRC server
   Exam-Rank-05/   # Rank 5 exam prep (vect2, bigint, polyset)
 Rank6/
-  Transcendence/  # ft_transcendence — Pong SPA, Docker, modules
+  Transcendence/  # ft_transcendence — modular web app, Docker, 14-point modules
   Exam-Rank-06/   # Rank 6 exam prep (mini_serv)
 ```
 
