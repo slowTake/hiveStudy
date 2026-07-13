@@ -12,10 +12,9 @@ Module 07 introduces **generic programming** with function templates and class t
 
 ## Study files
 
-- [exercises.md](./exercises.md) — **per-exercise breakdown**, deliverables, expected behaviour, mandatory vs bonus
-- [study-plan.md](./study-plan.md)
-- [theory-and-concepts.md](./theory-and-concepts.md)
-- [syntax-libraries-tools.md](./syntax-libraries-tools.md)
+- [exercises.md](./exercises.md) — **per-exercise breakdown** with module concepts (templates, headers, type requirements), requirements tables, pitfalls, and evaluator checks; deliverables and mandatory vs bonus
+- [study-plan.md](./study-plan.md) — recommended order and milestones
+- [syntax-libraries-tools.md](./syntax-libraries-tools.md) — C++20 syntax, allowed headers, Makefile, debugging
 
 ## Global constraints
 
