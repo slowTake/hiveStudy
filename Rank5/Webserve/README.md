@@ -13,12 +13,11 @@ Production-like HTTP server architecture without frameworks:
 - **CGI** via `fork` + `pipe` + `execve` (only place `fork` is allowed)
 - One event loop for listen socket + all clients
 
-## Study files
+## Study files in this directory
 
-- [study-plan.md](./study-plan.md)
-- [theory-and-concepts.md](./theory-and-concepts.md)
-- [exercises.md](./exercises.md)
-- [syntax-libraries-tools.md](./syntax-libraries-tools.md)
+- [exercises.md](./exercises.md) — **primary reference**: module concepts, per-feature concepts, requirements, pitfalls, and evaluator checklist
+- [study-plan.md](./study-plan.md) — recommended order and milestones
+- [syntax-libraries-tools.md](./syntax-libraries-tools.md) — C++98 syntax, allowed syscalls, HTTP/curl debugging, sample config
 
 ## Global constraints
 

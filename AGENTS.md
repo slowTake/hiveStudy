@@ -48,7 +48,7 @@ Additional ranks (`Rank0`–`Rank3`, etc.) may be added as the curriculum is cov
    - `README.md` — overview and links
    - `study-plan.md` — ordered learning path
    - `syntax-libraries-tools.md` — quick reference for allowed APIs and build tooling
-   - **Rank5 CPP05–CPP09:** `exercises.md` only — per-exercise concepts, requirements, and evaluator expectations in one file
+   - **Rank5 CPP05–CPP09, IRC, Webserve:** `exercises.md` only — module concepts, per-feature (or per-exercise) concepts, requirements, pitfalls, and evaluator checklist in one file
    - **Other projects:** also `theory-and-concepts.md` (concepts grouped by exercise) and `exercises.md` (deliverables and eval checklist)
 4. **C++ standard** — The Hive allows **C++20**: compile with `-std=c++20 -Wall -Wextra -Werror`. Use modern features (`nullptr`, `override`, `noexcept`, smart pointers) where they improve clarity. **STL containers/algorithms remain forbidden in CPP05–CPP07** per module subjects; CPP08+ explicitly introduces STL.
 5. **IRC / Webserve** — Subject PDFs require **C++98**, non-blocking I/O with `poll()` (or equivalent). IRC: no `fork()`. Webserve: `fork()` only for CGI. Confirm Hive eval flags on evaluation sheets.

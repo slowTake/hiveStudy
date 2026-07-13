@@ -8,12 +8,11 @@ Team project: build an **IRC server** compatible with a real IRC client (Irssi, 
 
 Single-process, **non-blocking** event loop using `poll()` (or equivalent). Clients connect over TCP, authenticate, join channels, and exchange messages per IRC protocol (RFC 1459 / RFC 2812).
 
-## Study files
+## Study files in this directory
 
-- [study-plan.md](./study-plan.md)
-- [theory-and-concepts.md](./theory-and-concepts.md)
-- [exercises.md](./exercises.md) — subject requirements, eval traps, checklist
-- [syntax-libraries-tools.md](./syntax-libraries-tools.md)
+- [exercises.md](./exercises.md) — **primary reference**: module concepts, per-feature concepts, requirements, pitfalls, and evaluator checklist
+- [study-plan.md](./study-plan.md) — recommended order and milestones
+- [syntax-libraries-tools.md](./syntax-libraries-tools.md) — C++98 syntax, allowed syscalls, socket/`poll()` sketches, debugging
 
 ## Global constraints
 

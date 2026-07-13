@@ -4,7 +4,9 @@ Source: [ft_irc.pdf](./ft_irc.pdf) (subject v9.1). When the PDF and campus norms
 
 ---
 
-## Turn-in summary
+## How project validation works
+
+ft_irc is a **single mandatory project** — there are no optional exercises. Bonus features are graded only if mandatory is **perfect**.
 
 | | |
 |---|---|
@@ -12,19 +14,125 @@ Source: [ft_irc.pdf](./ft_irc.pdf) (subject v9.1). When the PDF and campus norms
 | **Run** | `./ircserv <port> <password>` |
 | **Files** | `Makefile`, `*.{h,hpp}`, `*.cpp`, `*.tpp`, `*.ipp`, optional config file |
 | **Makefile rules** | `$(NAME)`, `all`, `clean`, `fclean`, `re` — no unnecessary relinking |
-| **Standard (subject)** | **C++98** — must still compile with `-std=c++98` |
 | **Libft** | Not applicable |
 | **External libs / Boost** | Forbidden |
 
-### Hive note on C++ standard
+### C++ standard
 
-The subject PDF requires **C++98**. The Hive campus norm for other C++ modules is **C++20**. For ft_irc, confirm with your evaluation sheet which flag evaluators use. Safe approach: write code that compiles cleanly with **both** `-std=c++98` and `-std=c++20` until you know otherwise.
+The subject PDF requires **C++98** (`-std=c++98`). The Hive campus norm for CPP modules is **C++20**. Confirm with your evaluation sheet which flag evaluators use. Safe approach: write code that compiles cleanly with **both** `-std=c++98` and `-std=c++20` until you know otherwise.
 
 ---
 
-## Mandatory requirements (from subject)
+## Module concepts
 
-### Architecture
+### IRC protocol overview
+
+IRC is a **text-based**, line-oriented protocol over TCP. Each message ends with `\r\n`.
+
+**Message structure:**
+
+```text
+[:prefix] COMMAND [param [param ...]] [:trailing]\r\n
+```
+
+Examples:
+
+```text
+PASS secret\r\n
+NICK alice\r\n
+USER alice 0 * :Alice User\r\n
+JOIN #general\r\n
+PRIVMSG #general :Hello everyone\r\n
+```
+
+### Reply numerics
+
+Server responds with 3-digit codes:
+
+| Code | Meaning |
+|------|---------|
+| 001 | Welcome (RPL_WELCOME) |
+| 433 | Nickname in use |
+| 401 | No such nick/channel |
+| 482 | Not channel operator |
+| 475 | Cannot join (bad key) |
+
+Reference clients depend on correct numerics during registration — study RFC 2812 numeric list.
+
+### Event-driven model
+
+```mermaid
+flowchart TD
+    PL[poll loop]
+    PL --> ACC[accept new client]
+    PL --> RD[read client data]
+    PL --> WR[flush send queue]
+    RD --> PAR[parse complete lines]
+    PAR --> CMD[dispatch command]
+    CMD --> CH[update channels]
+    CMD --> RPL[queue replies]
+```
+
+### Core objects
+
+**Server** — listening socket fd; `std::map<int, Client>` or `vector<Client>` keyed by fd; `std::map<std::string, Channel>` by channel name; password; main `poll()` loop.
+
+**Client:**
+
+| Field | Purpose |
+|-------|---------|
+| fd | Socket |
+| nickname, username | Identity after registration |
+| registered | Passed PASS+NICK+USER |
+| readBuffer | Incomplete input |
+| sendQueue | Pending output |
+| channels | Membership set |
+
+**Channel:**
+
+| Field | Purpose |
+|-------|---------|
+| name | e.g. `#general` |
+| topic | Channel topic string |
+| members | Clients in channel |
+| operators | Subset with privileges |
+| modes | `i`, `t`, `k`, `o`, `l` state + key + limit |
+
+### RFC reading order
+
+1. [RFC 2812](https://www.rfc-editor.org/rfc/rfc2812) — message format, core commands
+2. [RFC 1459](https://www.rfc-editor.org/rfc/rfc1459) — historical reference, mode details
+
+Do not implement server-to-server (RFC 2813) — out of scope.
+
+---
+
+## Architecture & event loop
+
+### Concepts
+
+With one thread and one `poll()`, no client can block the whole server waiting on `recv`. Every socket is `O_NONBLOCK`; partial reads are normal.
+
+**Read buffering** — TCP is a byte stream; one `recv` may contain half a message or multiple messages:
+
+```text
+Buffer: "PRIVMSG #foo :hel"
+Buffer: "PRIVMSG #foo :hello\r\nJOIN #bar\r\n"
+```
+
+Split on `\r\n`, process complete lines only.
+
+**Write buffering** — If `send` returns `EAGAIN`, queue remaining bytes and wait for `POLLOUT`.
+
+**Subject partial-data test** — aggregate fragmented TCP data before parsing:
+
+```bash
+nc -C 127.0.0.1 6667
+```
+
+Send a command in fragments with Ctrl+D (`com`, then `man`, then `d` + newline). The server must rebuild the full line before dispatching.
+
+### Requirements
 
 | Requirement | Detail |
 |-------------|--------|
@@ -37,105 +145,173 @@ The subject PDF requires **C++98**. The Hive campus norm for other C++ modules i
 | No IRC client | Do not implement your own client |
 | No server-to-server | Do not implement IRC network linking (RFC 2813) |
 
-### poll() trap (grade = 0)
+### Pitfalls & evaluator checks
 
-The subject allows non-blocking `read`/`recv` and `write`/`send` in principle, but:
-
-> If you attempt to read/recv or write/send on any file descriptor **without** using `poll()` (or equivalent), your grade will be **0**.
-
-Every I/O operation on client/listen sockets must go through your single event loop.
-
-### Crash trap (grade = 0)
-
-> Your program should not crash in any circumstances (even when it runs out of memory), and should not quit unexpectedly.
-
-Evaluators treat crashes as a non-functional project.
+| Pitfall | Evaluator check |
+|---------|-----------------|
+| I/O without `poll()` | Subject: grade **0** — every `read`/`recv`/`write`/`send` on client/listen sockets must go through the event loop |
+| Blocking `recv` | One slow client freezes server |
+| No send buffer | Lost messages on `EAGAIN`; need send queue + `POLLOUT` |
+| Partial TCP reads | `nc -C` split test fails |
+| Server crash on edge case | Subject: grade **0** — must not crash or quit unexpectedly, even on OOM |
+| More than one multiplexer pattern | Violates "only 1 poll()" rule |
 
 ---
 
-## Features you must implement
+## Registration & authentication
 
-The subject lists **capabilities**, not every IRC command by name. Map them like this:
+### Concepts
 
-| Capability (subject) | Typical commands |
-|----------------------|------------------|
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: PASS password
+    C->>S: NICK nick
+    C->>S: USER user 0 * :Real Name
+    S->>C: 001 Welcome
+    Note over C,S: Now fully registered
+```
+
+- Wrong `PASS` → disconnect or error numerics
+- Duplicate `NICK` → `433` and request new nick
+- Commands like `JOIN` before registration → error
+
+### Requirements
+
+| Command | Role |
+|---------|------|
+| `PASS` | Authenticate with server password |
+| `NICK` | Set/display nickname |
+| `USER` | Register user identity |
+
+| Capability (subject) | Maps to |
+|----------------------|---------|
 | Authenticate | `PASS` |
 | Set nickname | `NICK` |
 | Set username | `USER` |
+
+### Pitfalls & evaluator checks
+
+| Pitfall | Evaluator check |
+|---------|-----------------|
+| Missing welcome numerics | Client disconnects at registration — send `001` after PASS+NICK+USER |
+| Wrong password accepted | `PASS` with bad password must be rejected |
+| Nick collision not handled | Duplicate `NICK` → `433` |
+
+---
+
+## Channels & messaging
+
+### Concepts
+
+**Broadcasting** — when client sends `PRIVMSG #channel :text`:
+
+1. Verify sender is in channel
+2. Build `:nick!user@host PRIVMSG #channel :text\r\n`
+3. Send to every **other** member in channel (match reference client behavior on echo)
+
+Target forms: `#channel` (broadcast) or `nickname` (direct message).
+
+### Requirements
+
+| Command | Role |
+|---------|------|
+| `JOIN` | Enter channel (`#name`); create if missing |
+| `PRIVMSG` | Private or channel message |
+
+| Capability (subject) | Detail |
+|----------------------|--------|
 | Join a channel | `JOIN` |
 | Send/receive private messages | `PRIVMSG` (user and `#channel` targets) |
 | Channel broadcast | Forward channel `PRIVMSG` to **every other** member in that channel |
-| Operators vs regular users | Track channel operators; enforce privileges |
-| Operator commands | `KICK`, `INVITE`, `TOPIC`, `MODE` |
 
-### Channel modes (MODE) — all five required
+### Pitfalls & evaluator checks
 
-| Mode | Meaning |
-|------|---------|
-| `i` | Invite-only channel |
-| `t` | Only operators may change `TOPIC` |
-| `k` | Channel key (password to join) |
-| `o` | Grant/remove operator privilege to a user |
-| `l` | User limit on channel |
-
-### Not named in the subject PDF
-
-These are **not** listed as mandatory features, but reference clients often send them during normal use:
-
-| Command | Why it matters |
-|---------|----------------|
-| `PING` / `PONG` | Clients disconnect if the server does not answer pings |
-| `QUIT` | Clean disconnect and resource cleanup |
-| `PART` | Leaving a channel — common in every client UI |
-| `NOTICE` | Some clients use it; often low priority |
-| `NAMES`, `LIST`, `WHO` | Channel user lists in GUI clients |
-
-If your chosen reference client errors on any of these during a normal session, implement a minimal handler or numeric reply.
+| Pitfall | Evaluator check |
+|---------|-----------------|
+| Wrong line endings | Client hangs — use `\r\n` |
+| Nick not updated on channel relay | Wrong prefix in messages |
+| Channel message not reaching others | `PRIVMSG` to channel must reach every other member |
+| DM broken | `PRIVMSG` to nickname must work |
 
 ---
 
-## MacOS-only rule
+## Operator commands & channel modes
 
-On macOS, `write()` behaves differently. You may use `fcntl()` **only** as:
+### Concepts
 
-```cpp
-fcntl(fd, F_SETFL, O_NONBLOCK);
+Operators vs regular users — track channel operators; enforce privileges on operator-only commands.
+
+**Channel modes** — parsing `MODE` is notoriously fiddly; parameter order matters per mode.
+
+Examples:
+
+```text
+MODE #chan +i
+MODE #chan +k secret
+MODE #chan +l 10
+MODE #chan +o alice
 ```
 
-Any other `fcntl` flag is forbidden on macOS.
+### Requirements
+
+| Command | Role |
+|---------|------|
+| `KICK` | Remove user from channel |
+| `INVITE` | Invite user to `+i` channel |
+| `TOPIC` | View or set topic |
+| `MODE` | View/set channel modes |
+
+| Mode | Flag | Effect |
+|------|------|--------|
+| invite-only | `i` | Only invited users may `JOIN` |
+| topic restricted | `t` | Only operators set `TOPIC` |
+| channel key | `k` | Password required to join |
+| operator | `o` | Grant/remove operator to user |
+| user limit | `l` | Max members |
+
+### Pitfalls & evaluator checks
+
+| Pitfall | Evaluator check |
+|---------|-----------------|
+| Mode parsing bugs | `+ok` vs `+o nick` confusion |
+| `+i` without invite flow | `INVITE` required before `JOIN` |
+| `+k` without key check | Bad key → `475` |
+| `+t` not enforced | Non-operators cannot set `TOPIC` |
+| `+l` not enforced | Channel respects member limit |
+| Not channel operator | `482` on unauthorized operator commands |
 
 ---
 
-## Subject test example (partial data)
+## Practical extras (not in subject PDF)
 
-The subject requires aggregating fragmented TCP data before parsing a command:
+### Concepts
 
-```bash
-nc -C 127.0.0.1 6667
-```
+The PDF names **capabilities**, not every IRC command. If your chosen reference client errors on any of these during a normal session, implement a minimal handler or numeric reply.
 
-Send `command` in parts with Ctrl+D: `com`, then `man`, then `d` + newline. The server must rebuild the full line before dispatching.
+### Requirements
 
-Also test: low bandwidth, multiple clients, wrong password, nick collision.
+| Command | In subject PDF? | Practical need |
+|---------|------------------|----------------|
+| `PASS` / `NICK` / `USER` | Implied | Required |
+| `JOIN` / `PRIVMSG` | Implied | Required |
+| `KICK` / `INVITE` / `TOPIC` / `MODE` | Explicit | Required |
+| `PING` / `PONG` | Not listed | Almost always needed — clients disconnect without `PONG` |
+| `PART` / `QUIT` | Not listed | Expected in normal client use |
+| `NOTICE` | Not listed | Optional unless client sends it |
+| `NAMES` / `LIST` / `WHO` | Not listed | May be needed for channel user lists in GUI clients |
 
----
+### Pitfalls & evaluator checks
 
-## Allowed external functions (authoritative list)
-
-```
-socket, close, setsockopt, getsockname, getprotobyname, gethostbyname,
-getaddrinfo, freeaddrinfo, bind, connect, listen, accept,
-htons, htonl, ntohs, ntohl, inet_addr, inet_ntoa, inet_ntop,
-send, recv, signal, sigaction,
-sigemptyset, sigfillset, sigaddset, sigdelset, sigismember,
-lseek, fstat, fcntl, poll (or equivalent)
-```
-
-Anything not on this list (or not in the C++ standard library) needs explicit subject approval.
+| Pitfall | Evaluator check |
+|---------|-----------------|
+| No `PONG` reply | Client times out and disconnects |
+| Reference client protocol errors | Session must complete without errors in your chosen client |
 
 ---
 
-## Bonus part
+## Bonus
 
 | Bonus | Subject mention |
 |-------|-----------------|
@@ -146,22 +322,7 @@ Anything not on this list (or not in the C++ standard library) needs explicit su
 
 ---
 
-## Peer evaluation — what to expect
-
-| Check | Detail |
-|-------|--------|
-| Reference client | Evaluator uses **your** chosen client against **your** server |
-| Live demo | Auth, join, chat, operator actions, modes |
-| Whiteboard | Be ready to explain the `poll()` loop and non-blocking design |
-| Live modification | Evaluators **may** ask for a small code change on the spot (few minutes) to verify understanding — e.g. tweak a function, display, or data structure |
-| Tests | You may use any test programs during defense; they are not submitted |
-| Repo only | Only work inside the Git repo is evaluated |
-
-Walk the evaluation guidelines line by line before defense.
-
----
-
-## Evaluator checklist (rehearsal)
+## Module checklist
 
 - [ ] `./ircserv <port> <password>` — exactly two arguments after binary name
 - [ ] Builds with `-Wall -Wextra -Werror` and subject standard flag
@@ -180,3 +341,38 @@ Walk the evaluation guidelines line by line before defense.
 - [ ] Reference client session has no protocol errors
 - [ ] No leaks on connect/disconnect cycles (valgrind)
 - [ ] Server survives edge cases without crash
+- [ ] Partial-data `nc -C` test passes
+
+### MacOS-only rule
+
+On macOS, `write()` behaves differently. You may use `fcntl()` **only** as:
+
+```cpp
+fcntl(fd, F_SETFL, O_NONBLOCK);
+```
+
+Any other `fcntl` flag is forbidden on macOS.
+
+### Allowed external functions
+
+See authoritative list in [syntax-libraries-tools.md](./syntax-libraries-tools.md). Anything not on that list (or not in the C++ standard library) needs explicit subject approval.
+
+### Evaluation topics to rehearse
+
+Be ready to demonstrate live:
+
+1. Start server: `./ircserv 6667 mypass`
+2. Connect two reference clients with same password
+3. Join same channel, exchange messages
+4. Operator kicks user, sets `+i`, tests `INVITE`
+5. Wrong password rejected
+6. Explain `poll()` loop on whiteboard
+7. **Live modification** — evaluators may ask for a small on-the-spot code change (few minutes) to verify understanding
+
+| Check | Detail |
+|-------|--------|
+| Reference client | Evaluator uses **your** chosen client against **your** server |
+| Tests | You may use any test programs during defense; they are not submitted |
+| Repo only | Only work inside the Git repo is evaluated |
+
+Walk the evaluation guidelines line by line before defense.
