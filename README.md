@@ -7,6 +7,7 @@ Study repository for **Hive Helsinki's 42 core curriculum** — theory, study pl
 - [Rank 5](./Rank5/) — CPP05–CPP09, Inception, Webserve, IRC, Exam Rank 05
 - [Rank 6](./Rank6/) — Transcendence, Exam Rank 06
 
+leave a star if you find this repo useful, so others may know
 
 ----
 
