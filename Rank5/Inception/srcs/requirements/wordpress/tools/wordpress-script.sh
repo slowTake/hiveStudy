@@ -2,19 +2,8 @@
 set -e
 
 echo "==> Setting up WordPress..."
-{
-	echo "memory_limit = 256M"
-	echo "max_execution_time = 120"
-} >> /etc/php83/php.ini
 
 cd /var/www/html
-
-if [ ! -x /usr/local/bin/wp ]; then
-	echo "==> Downloading WP-CLI..."
-	wget -q https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp \
-		|| { echo "Failed to download wp-cli"; exit 1; }
-	chmod +x /usr/local/bin/wp
-fi
 
 echo "==> Waiting for MariaDB..."
 mariadb-admin ping \

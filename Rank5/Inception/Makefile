@@ -6,6 +6,7 @@ DATA_DIR	= /home/$(LOGIN)/data
 MARIADB_DIR	= $(DATA_DIR)/mariadb
 WORDPRESS_DIR	= $(DATA_DIR)/wordpress
 COMPOSE_FILE	= srcs/docker-compose.yml
+ENV_FILE	= srcs/.env
 
 # Old hardware: single parallel build, modest Docker memory
 export DOCKER_BUILDKIT		= 0
@@ -17,11 +18,17 @@ BLUE	= \033[1;34m
 YELLOW	= \033[1;33m
 RED	= \033[1;31m
 
-all: data-dirs
+all: env-check data-dirs
 	@echo "$(YELLOW)==> Building and starting Inception...$(RESET)"
 	@$(MAKE) images
 	@$(MAKE) up
 	@echo "$(GREEN)==> Done. Visit https://$(LOGIN).42.fr$(RESET)"
+
+env-check:
+	@test -f $(ENV_FILE) || { \
+		echo "$(RED)==> $(ENV_FILE) is missing.$(RESET)"; \
+		echo "$(YELLOW)    Run: make LOGIN=$(LOGIN) env$(RESET)"; \
+		exit 1; }
 
 data-dirs:
 	@echo "$(YELLOW)==> Creating bind-mount data directories...$(RESET)"
@@ -29,7 +36,7 @@ data-dirs:
 
 images:
 	@echo "$(BLUE)==> Building Docker images (single-threaded for slow hosts)...$(RESET)"
-	@docker compose -f $(COMPOSE_FILE) build --parallel 1
+	@docker compose -f $(COMPOSE_FILE) build
 
 up:
 	@echo "$(BLUE)==> Starting containers...$(RESET)"
@@ -55,7 +62,7 @@ clean:
 fclean: clean
 	@echo "$(RED)==> Removing host data directories...$(RESET)"
 	@sudo rm -rf $(DATA_DIR)
-	@docker system prune -f --volumes
+	@docker system prune -f
 
 re: fclean all
 
@@ -65,4 +72,4 @@ env:
 hosts:
 	@./scripts/setup-hosts.sh $(LOGIN)
 
-.PHONY: all data-dirs images up down logs ps status clean fclean re env hosts
+.PHONY: all env-check data-dirs images up down logs ps status clean fclean re env hosts

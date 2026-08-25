@@ -107,7 +107,7 @@ Set `LOGIN=yourlogin` on every `make` invocation if it differs from the Makefile
 
 ### AI usage
 
-AI (Cursor) was used to:
+An AI coding assistant was used to:
 
 - Scaffold Dockerfiles, compose file, and shell scripts from the subject and reference repo
 - Draft README, setup.md, USER_DOC.md, and DEV_DOC.md
